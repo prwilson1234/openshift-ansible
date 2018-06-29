@@ -9,9 +9,13 @@ g_master_hosts: "{{ groups.masters | default([]) }}"
 
 g_new_master_hosts: "{{ groups.new_masters | default([]) }}"
 
-g_node_hosts: "{{ groups.nodes | default([]) }}"
+g_infranode_hosts: "{{ groups.infranodes | default([]) }}"
 
-g_new_node_hosts: "{{ groups.new_nodes | default([]) }}"
+g_new_infranode_hosts: "{{ groups.new_infranodes | default([]) }}"
+
+g_appnode_hosts: "{{ groups.appnodes | default([]) }}"
+
+g_new_appnode_hosts: "{{ groups.new_appnodes | default([]) }}"
 
 g_nfs_hosts: "{{ groups.nfs | default([]) }}"
 
