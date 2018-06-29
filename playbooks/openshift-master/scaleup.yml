@@ -27,19 +27,21 @@
       # new_masters must be part of new_nodes as well;
       msg: >
         Each host in new_masters must also appear in new_nodes
-    when: inventory_hostname not in groups['oo_nodes_to_config']
+    when:
+      inventory_hostname not in groups['oo_infranodes_to_config']
+      inventory_hostname not in groups['oo_appnodes_to_config']
 
 - import_playbook: ../prerequisites.yml
   vars:
-    l_scale_up_hosts: "oo_nodes_to_config:oo_masters_to_config"
-    l_base_packages_hosts: "oo_nodes_to_config:oo_masters_to_config"
+    l_scale_up_hosts: "oo_infranodes_to_config:oo_appnodes_to_config:oo_masters_to_config"
+    l_base_packages_hosts: "oo_infranodes_to_config:oo_appnodes_to_config:oo_masters_to_config"
     # oo_masters contains both existing and new masters; oo_masters_to_config just new.
-    l_init_fact_hosts: "oo_masters:oo_etcd_to_config:oo_lb_to_config:oo_nodes_to_config"
-    l_sanity_check_hosts: "{{ groups['oo_nodes_to_config'] | union(groups['oo_masters']) }}"
+    l_init_fact_hosts: "oo_masters:oo_etcd_to_config:oo_lb_to_config:oo_infranodes_to_config:oo_appnodes_to_config"
+    l_sanity_check_hosts: "{{ groups['oo_infranodes_to_config'] | union(groups['oo_masters']) | union(groups['oo_appnodes_to_config'])}}"
 
 - import_playbook: ../init/version.yml
   vars:
-    l_openshift_version_set_hosts: "oo_masters_to_config:oo_nodes_to_config:!oo_first_master"
-    l_openshift_version_check_hosts: "oo_masters_to_config:oo_nodes_to_config"
+    l_openshift_version_set_hosts: "oo_masters_to_config:oo_infranodes_to_config:oo_appnodes_to_config:!oo_first_master"
+    l_openshift_version_check_hosts: "oo_masters_to_config:oo_infranodes_to_config:oo_appnodes_to_config"
 
 - import_playbook: private/scaleup.yml

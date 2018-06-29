@@ -37,7 +37,8 @@
     l_sanity_check_hosts: "{{ groups['oo_new_etcd_to_config'] | union(groups['oo_masters_to_config']) | union(groups['oo_etcd_to_config']) }}"
   when:
   - inventory_hostname not in groups['oo_masters']
-  - inventory_hostname not in groups['oo_nodes_to_config']
+  - inventory_hostname not in groups['oo_infranodes_to_config']
+  - inventory_hostname not in groups['oo_appnodes_to_config']
 
 # If this etcd host is part of a master or node, we don't need to run
 # prerequisites, we can just init facts as normal.
@@ -50,6 +51,7 @@
     l_openshift_version_check_hosts: "all:!all"
   when:
   - inventory_hostname in groups['oo_masters']
-  - inventory_hostname in groups['oo_nodes_to_config']
+  - inventory_hostname in groups['oo_infranodes_to_config']
+  - inventory_hostname in groups['oo_appnodes_to_config']
 
 - import_playbook: private/scaleup.yml

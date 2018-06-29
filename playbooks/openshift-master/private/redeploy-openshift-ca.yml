@@ -1,6 +1,6 @@
 ---
 - name: Check cert expirys
-  hosts: oo_nodes_to_config:oo_masters_to_config:oo_etcd_to_config
+  hosts: oo_infranodes_to_config:oo_appnodes_to_config:oo_masters_to_config:oo_etcd_to_config
   vars:
     openshift_certificate_expiry_show_all: yes
   roles:
@@ -279,13 +279,13 @@
   when:
   # nodes
   - ('expired' not in hostvars
-      | lib_utils_oo_select_keys(groups['oo_nodes_to_config'])
+      | lib_utils_oo_select_keys(groups['oo_infranodes_to_config']| union(groups['oo_appnodes_to_config']))
       | lib_utils_oo_collect('check_results.check_results.ocp_certs')
-      | lib_utils_oo_collect('health', {'path':hostvars[groups.oo_nodes_to_config.0].openshift.common.config_base ~ "/node/server.crt"}))
+      | lib_utils_oo_collect('health', {'path':hostvars[groups.oo_infranodes_to_config.0].openshift.common.config_base ~ "/node/server.crt"}))
   - ('expired' not in hostvars
-      | lib_utils_oo_select_keys(groups['oo_nodes_to_config'])
+      | lib_utils_oo_select_keys(groups['oo_infranodes_to_config'])| union(groups['oo_appnodes_to_config'])
       | lib_utils_oo_collect('check_results.check_results.ocp_certs')
-      | lib_utils_oo_collect('health', {'path':hostvars[groups.oo_nodes_to_config.0].openshift.common.config_base ~ "/node/ca.crt"}))
+      | lib_utils_oo_collect('health', {'path':hostvars[groups.oo_infranodes_to_config.0].openshift.common.config_base ~ "/node/ca.crt"}))
   # masters
   - ('expired' not in hostvars
       | lib_utils_oo_select_keys(groups['oo_masters_to_config'])

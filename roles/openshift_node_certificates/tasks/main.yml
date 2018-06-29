@@ -70,7 +70,7 @@
   args:
     creates: "{{ openshift_generated_configs_dir }}/node-{{ hostvars[item].openshift.common.hostname | lower }}"
   with_items: "{{ hostvars
-                  | lib_utils_oo_select_keys(groups['oo_nodes_to_config'])
+                  | lib_utils_oo_select_keys(groups['oo_infranodes_to_config'] | union(groups['oo_appnodes_to_config']))
                   | lib_utils_oo_collect(attribute='inventory_hostname', filters={'node_certs_missing':True}) }}"
   delegate_to: "{{ openshift_ca_host }}"
   run_once: true
@@ -89,7 +89,7 @@
   args:
     creates: "{{ openshift_generated_configs_dir }}/node-{{ hostvars[item].openshift.common.hostname | lower }}/server.crt"
   with_items: "{{ hostvars
-                  | lib_utils_oo_select_keys(groups['oo_nodes_to_config'])
+                  | lib_utils_oo_select_keys(groups['oo_infranodes_to_config']| union(groups['oo_appnodes_to_config']))
                   | lib_utils_oo_collect(attribute='inventory_hostname', filters={'node_certs_missing':True}) }}"
   delegate_to: "{{ openshift_ca_host }}"
   run_once: true
