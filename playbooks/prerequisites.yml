@@ -17,7 +17,7 @@
 - name: Configure os_firewall
   hosts: "{{ l_scale_up_hosts | default(l_default_firewall_hosts) }}"
   vars:
-    l_default_firewall_hosts: "oo_masters_to_config:oo_etcd_to_config:oo_lb_to_config:oo_nfs_to_config:oo_nodes_to_config"
+    l_default_firewall_hosts: "oo_masters_to_config:oo_etcd_to_config:oo_lb_to_config:oo_nfs_to_config:oo_infranodes_to_config:oo_appnodes_to_config"
   roles:
   - role: os_firewall
 

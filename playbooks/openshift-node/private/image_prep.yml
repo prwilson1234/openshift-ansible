@@ -6,10 +6,17 @@
     skip_sanity_checks: True
     skip_validate_hostnames: True
 
-- name: determine version
+- name: determine version infra
   import_playbook: ../../init/version.yml
   vars:
-    l_openshift_version_determine_hosts: "oo_nodes_to_config"
+    l_openshift_version_determine_hosts: "oo_infranodes_to_config"
+    l_openshift_version_set_hosts: "all:!all"
+    l_openshift_version_check_hosts: "all:!all"
+
+- name: determine version app
+  import_playbook: ../../init/version.yml
+  vars:
+    l_openshift_version_determine_hosts: "oo_appnodes_to_config"
     l_openshift_version_set_hosts: "all:!all"
     l_openshift_version_check_hosts: "all:!all"
 
@@ -21,8 +28,15 @@
   vars:
     skip_node_svc_handlers: True
 
-- name: node bootstrap config
-  hosts: oo_nodes_to_config:!oo_containerized_master_nodes
+- name: infranode bootstrap config
+  hosts: oo_infranodes_to_config:!oo_containerized_master_nodes
+  tasks:
+    - import_role:
+        name: openshift_node
+        tasks_from: bootstrap.yml
+
+- name: appnode bootstrap config
+  hosts: oo_appnodes_to_config:!oo_containerized_master_nodes
   tasks:
     - import_role:
         name: openshift_node

@@ -1,6 +1,13 @@
 ---
-- name: Re-enable excluder if it was previously enabled
-  hosts: oo_nodes_to_config
+- name: Re-enable excluder if it was previously enabled infra
+  hosts: oo_infranodes_to_config
+  gather_facts: no
+  roles:
+  - role: openshift_excluder
+    r_openshift_excluder_action: enable
+
+- name: Re-enable excluder if it was previously enabled app
+  hosts: oo_appnodes_to_config
   gather_facts: no
   roles:
   - role: openshift_excluder
