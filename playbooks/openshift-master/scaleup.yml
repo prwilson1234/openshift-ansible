@@ -16,7 +16,7 @@
         playbooks/openshift-node/scaleup.yml play.
     when: >
       g_new_master_hosts | default([]) | length == 0
-      or g_new_node_hosts | default([]) | length == 0
+      or g_new_infranode_hosts | default([]) | length == 0
 
 - name: Ensure there are new_masters and new_nodes
   hosts: oo_masters_to_config
@@ -29,7 +29,6 @@
         Each host in new_masters must also appear in new_nodes
     when:
       inventory_hostname not in groups['oo_infranodes_to_config']
-      inventory_hostname not in groups['oo_appnodes_to_config']
 
 - import_playbook: ../prerequisites.yml
   vars:
