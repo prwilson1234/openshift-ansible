@@ -167,6 +167,8 @@ openshift_node_bootstrap: False
 
 r_openshift_node_os_firewall_deny: []
 default_r_openshift_node_os_firewall_allow:
+- service: ALB health check
+  port: 8080/tcp
 - service: Kubernetes kubelet
   port: 10250/tcp
 - service: Kubernetes kube-proxy health check for service load balancers
