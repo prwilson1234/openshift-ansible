@@ -21,6 +21,16 @@
     enabled: yes
     state: started
 
+- name: Restart dbus
+  systemd:
+    name: dbus
+    state: restarted
+
+- name: Restart dnsmasq
+  systemd:
+    name: dnsmasq
+    state: restarted
+
 # Dynamic NetworkManager based dispatcher
 - import_tasks: dnsmasq/network-manager.yml
   when: network_manager_active | bool
