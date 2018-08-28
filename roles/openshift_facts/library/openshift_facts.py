@@ -595,7 +595,7 @@ def set_sdn_facts_if_unset(facts, system_facts):
     if 'master' in facts:
         # set defaults for sdn_cluster_network_cidr and sdn_host_subnet_length
         # these might be overridden if they exist in the master config file
-        sdn_cluster_network_cidr = '10.4.0.0/18'
+        sdn_cluster_network_cidr = '10.4.64.0/18'
         sdn_host_subnet_length = '9'
 
         master_cfg_path = os.path.join(facts['common']['config_base'],
@@ -1411,7 +1411,7 @@ class OpenShiftFacts(object):
                                   deployment_subtype=deployment_subtype,
                                   hostname=hostname,
                                   public_hostname=hostname,
-                                  portal_net='10.4.128.0/18',
+                                  portal_net='10.4.192.0/18',
                                   dns_domain='cluster.local',
                                   config_base='/etc/origin')
 
@@ -1421,7 +1421,7 @@ class OpenShiftFacts(object):
                                       console_use_ssl=True,
                                       console_path='/console',
                                       console_port='8443',
-                                      portal_net='10.4.128.0/18',
+                                      portal_net='10.4.192.0/18',
                                       embedded_kube=True,
                                       embedded_dns=True,
                                       bind_addr='0.0.0.0',
