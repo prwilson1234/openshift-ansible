@@ -30,6 +30,12 @@
   systemd:
     name: dnsmasq
     state: restarted
+    
+- name: restart logind
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: systemd-logind
 
 # Dynamic NetworkManager based dispatcher
 - import_tasks: dnsmasq/network-manager.yml
