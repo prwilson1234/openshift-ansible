@@ -8,6 +8,7 @@
 
 - import_tasks: dnsmasq_install.yml
 - import_tasks: dnsmasq.yml
+- import_tasks: chrony.yml
 
 - name: setup firewall
   import_tasks: firewall.yml
