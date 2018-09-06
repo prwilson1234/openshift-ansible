@@ -68,6 +68,13 @@
 - name: include standard node config
   import_tasks: config.yml
 
+# Bounce systemd-logind at the end of the sequence
+- name: restart logind
+  systemd:
+    state: restarted
+    daemon_reload: yes
+    name: systemd-logind
+
 #### Storage class plugins here ####
 - name: NFS storage plugin configuration
   import_tasks: storage_plugins/nfs.yml
