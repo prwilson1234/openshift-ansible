@@ -27,6 +27,10 @@
 - name: include node installer
   import_tasks: install.yml
 
+# Bounce systemd-logind at the end of the sequence
+  - name: Restart logind systemd-logind service
+    import_tasks: logind.yml
+
 - name: Restart cri-o
   systemd:
     name: cri-o
@@ -69,11 +73,11 @@
   import_tasks: config.yml
 
 # Bounce systemd-logind at the end of the sequence
-- name: restart logind
-  systemd:
-    state: restarted
-    daemon_reload: yes
-    name: systemd-logind
+#- name: restart logind
+#  systemd:
+#    state: restarted
+#    daemon_reload: yes
+#    name: systemd-logind
 
 #### Storage class plugins here ####
 - name: NFS storage plugin configuration
