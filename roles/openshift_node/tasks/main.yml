@@ -28,8 +28,8 @@
   import_tasks: install.yml
 
 # Bounce systemd-logind at the end of the sequence
-  - name: Restart logind systemd-logind service
-    import_tasks: logind.yml
+- name: restart logind to fix slow creation
+  import_tasks: logind.yml
 
 - name: Restart cri-o
   systemd:
