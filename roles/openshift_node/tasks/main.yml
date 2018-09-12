@@ -26,6 +26,10 @@
 - name: include node installer
   import_tasks: install.yml
 
+# Bounce systemd-logind at the end of the sequence
+- name: restart logind to fix slow creation
+  import_tasks: logind.yml
+
 - name: Restart cri-o
   systemd:
     name: cri-o
@@ -67,12 +71,12 @@
 - name: include standard node config
   import_tasks: config.yml
 
-# Bounce systemd-logind at the end of the sequence
-- name: restart logind
-  systemd:
-    state: restarted
-    daemon_reload: yes
-    name: systemd-logind
+# Bounce systemd-logind at the end of the sequence - to be deleted
+#- name: restart logind
+#  systemd:
+#    state: restarted
+#    daemon_reload: yes
+#    name: systemd-logind
 
 #### Storage class plugins here ####
 - name: NFS storage plugin configuration
