@@ -229,7 +229,7 @@
       | lib_utils_oo_collect('health')))
 
 - name: Distribute OpenShift CA certificate to nodes
-  hosts: oo_nodes_to_config
+  hosts: oo_appnodes_to_config:oo_infranodes_to_config
   vars:
     openshift_ca_host: "{{ groups.oo_first_master.0 }}"
   tasks:

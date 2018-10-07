@@ -28,7 +28,7 @@
         groups: temp_nodes_to_upgrade
         ansible_ssh_user: "{{ g_ssh_user | default(omit) }}"
         ansible_become: "{{ g_sudo | default(omit) }}"
-      with_items: " {{ groups['oo_nodes_to_config'] }}"
+      with_items: " {{ groups['oo_appnodes_to_config','oo_infranodes_to_config'] }}"
       when:
       - hostvars[item].openshift is defined
       - hostvars[item].openshift.common.hostname | lower in nodes_to_upgrade.results.results[0]['items'] | map(attribute='metadata.name') | list
@@ -42,5 +42,5 @@
       groups: oo_nodes_to_upgrade
       ansible_ssh_user: "{{ g_ssh_user | default(omit) }}"
       ansible_become: "{{ g_sudo | default(omit) }}"
-    with_items: "{{ groups['temp_nodes_to_upgrade'] | default(groups['oo_nodes_to_config']) }}"
+    with_items: "{{ groups['temp_nodes_to_upgrade'] | default(groups['oo_appnodes_to_config','oo_infranodes_to_config']) }}"
     changed_when: False

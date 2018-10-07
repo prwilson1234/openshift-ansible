@@ -14,7 +14,7 @@
   hosts: "{{ l_upgrade_no_proxy_hosts }}"
   tasks:
   - set_fact:
-      openshift_no_proxy_internal_hostnames: "{{ hostvars | lib_utils_oo_select_keys(groups['oo_nodes_to_config']
+      openshift_no_proxy_internal_hostnames: "{{ hostvars | lib_utils_oo_select_keys(groups['oo_appnodes_to_config,oo_infranodes_to_config']
                                                     | union(groups['oo_masters_to_config'])
                                                     | union(groups['oo_etcd_to_config'] | default([])))
                                                 | lib_utils_oo_collect('openshift.common.hostname') | default([]) | join (',')
