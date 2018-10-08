@@ -8,7 +8,7 @@
   with_items:
     - asb
     - asb-etcd
- - name: Remove ASB pods
+- name: Remove ASB pods
   oc_obj:
     selector: "deploymentconfig={{ item }}"
     kind: pod
@@ -17,7 +17,7 @@
   with_items:
     - asb
     - asb-etcd
- - name: Verify that the ASB is running
+- name: Verify that the ASB is running
   oc_obj:
     namespace: openshift-ansible-service-broker
     kind: deploymentconfig
